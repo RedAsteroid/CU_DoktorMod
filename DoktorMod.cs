@@ -52,72 +52,72 @@ public sealed class DoktorModPlugin : BaseUnityPlugin
             "Syringe minigame",
             "ShowInjectionMenu",
             true,
-            "Shows syringe liquid remaining and total injected per liquid component during the syringe minigame.");
+            "在注射小游戏中显示注射器剩余液体量，以及各液体成分的累计注射量。");
         ShowBandageTreatmentReadout = Config.Bind(
             "Bandage minigame",
             "ShowTreatmentReadout",
             true,
-            "Shows bleed, skin, and muscle treatment progress during bandage and bruise-kit minigames.");
+            "在绷带与淤伤治疗包小游戏中显示流血、皮肤与肌肉的治疗进度。");
         SyringeTextVerticalOffset = Config.Bind(
             "Syringe minigame",
             "TextVerticalOffset",
             DefaultSyringeTextVerticalOffset,
-            "Vertical offset from the native minigame item/percentage text to the syringe liquid readout.");
+            "液体读数相对原版小游戏物品/百分比文本的垂直偏移量。");
         SyringeTextHorizontalOffset = Config.Bind(
             "Syringe minigame",
             "TextHorizontalOffset",
             DefaultSyringeTextHorizontalOffset,
-            "Horizontal offset from the native minigame item/percentage text to the syringe liquid readout.");
+            "液体读数相对原版小游戏物品/百分比文本的水平偏移量。");
         ShowTimedEffectMoodles = Config.Bind(
             "Timed effect moodles",
             "ShowTimedEffectMoodles",
             true,
-            "Adds native side moodles for fixed-duration medical and drug effects.");
+            "为具有固定持续时间的医疗与药物效果添加原版样式的侧边状态图标。");
         TimedEffectIconScale = Config.Bind(
             "Timed effect moodles",
             "IconScale",
             DefaultTimedEffectIconScale,
-            "How much of each moodle badge the custom medicine/item sprite should fill.");
+            "自定义药品/物品图标在每个状态图标中所占的比例大小。");
         RevealSmallInfections = Config.Bind(
             "Health visibility",
             "RevealSmallInfections",
             true,
-            "Shows infection indicators immediately when infection is present instead of waiting for the vanilla 25% reveal threshold.");
+            "一旦出现感染就立即显示感染图标，而不必等到原版 25% 的显示阈值。");
         ShowBodyDollOverlay = Config.Bind(
             "Body doll overlay",
             "ShowOverlay",
             true,
-            "Shows a small health-panel-style body doll while normal gameplay UI is active.");
+            "在常规游戏界面下显示一个小型医疗面板样式的身体模型。");
         DollOverlayX = Config.Bind(
             "Body doll overlay",
             "OverlayX",
             DefaultDollOverlayX,
-            "Saved body doll center X position in canvas units from the top-left anchor.");
+            "保存身体模型的中心 X 坐标（画布单位，相对左上角锚点）。");
         DollOverlayY = Config.Bind(
             "Body doll overlay",
             "OverlayY",
             DefaultDollOverlayY,
-            "Saved body doll center Y position in canvas units from the top-left anchor.");
+            "保存身体模型的中心 Y 坐标（画布单位，相对左上角锚点）。");
         DollOverlayScale = Config.Bind(
             "Body doll overlay",
             "OverlayScale",
             DefaultDollOverlayScale,
-            "Saved body doll scale.");
+            "保存身体模型的缩放比例。");
         DollStatusIconSize = Config.Bind(
             "Body doll overlay",
             "StatusIconSize",
             DefaultDollStatusIconSize,
-            "Size of bleed/infection/fracture/etc status icons on the body doll before doll scaling is applied.");
+            "身体模型上流血/感染/骨折等状态图标的大小（在应用模型缩放之前）。");
         ShowDollDuringInventoryHover = Config.Bind(
             "Body doll overlay",
             "ShowDuringInventoryHover",
             true,
-            "Keeps the body doll visible while the inventory/radial hover UI is open.");
+            "打开物品栏/轮盘界面时仍保持身体模型可见。");
         AlwaysShowOpiateLevel = Config.Bind(
             "Diagnostics overlay",
             "AlwaysShowOpiateLevel",
             false,
-            "Always shows the opiate candlestick meter on the health panel hidden-vitals overlay, even when no opiate amount or tolerance is present.");
+            "即使当前没有阿片摄入量或耐受，也始终在医疗面板的隐藏生命体征叠加层中显示阿片K线图。");
 
         harmony = new Harmony(PluginGuid);
         harmony.PatchAll();
@@ -204,40 +204,40 @@ internal static class MoodleManagerAddAllMoodlesPatch
         AddSleepingPills(__instance, body);
         AddOpiateExposure(__instance, body);
         AddTimedOp(__instance, "antirad", "doktor_antirad", "antirad", "irradiated",
-            "Anti-radiation medicine", "Radiation sickness is being treated",
-            overdoseLine: BuildDoseLine("before OD", null, DoseToThreshold(CoUtils.instance.DurationOf("antirad"), 180f, 4.5f)));
+            "抗辐射药", "辐射病治疗生效中",
+            overdoseLine: BuildDoseLine("即达过量", null, DoseToThreshold(CoUtils.instance.DurationOf("antirad"), 180f, 4.5f)));
         AddTimedOp(__instance, "amiodarone", "doktor_amiodarone", "amiodarone", "arrythmia",
-            "Amiodarone", "Arrhythmia treatment is active");
+            "胺碘酮", "心律失常治疗生效中");
         AddTimedOp(__instance, "epinephrine", "doktor_epinephrine", "epinephrine", "fightorflight",
-            "Epinephrine", "Adrenaline support is active");
+            "肾上腺素", "肾上腺素支持生效中");
         AddTimedOp(__instance, "oxyline", "doktor_oxyline", "oxyline", "oxygen",
-            "Oxyline", "Oxygenation support is active");
+            "氧脉素", "氧脉素支持生效中");
         AddTimedOp(__instance, "procoagulant", "doktor_procoagulant", "bloodcoagulant", "bleeding",
-            "Procoagulant", "Clotting support is active");
+            "促凝剂", "凝血支持生效中");
         AddTimedOp(__instance, "highgradestimulant", "doktor_highgradestim", "combatpen", "stimulants",
-            "High-grade stimulant", "Stimulant effect is active",
-            overdoseLine: BuildDoseLine("before OD",
+            "医用级兴奋剂", "兴奋剂效果生效中",
+            overdoseLine: BuildDoseLine("即达过量",
                 DoseToThreshold(CoUtils.instance.DurationOf("highgradestimulant"), 320f, 2.4f),
                 DoseToThreshold(CoUtils.instance.DurationOf("highgradestimulant"), 320f, 2f)));
         AddTimedOp(__instance, "midgradestimulant", "doktor_midgradestim", "midgradestimulant", "stimulants",
-            "Medical-grade stimulant", "Stimulant effect is active",
-            overdoseLine: BuildDoseLine("before OD",
+            "强效兴奋剂", "兴奋剂效果生效中",
+            overdoseLine: BuildDoseLine("即达过量",
                 DoseToThreshold(CoUtils.instance.DurationOf("midgradestimulant"), 220f, 3.6f), null));
         AddTimedOp(__instance, "lowgradestimulant", "doktor_lowgradestim", "lowgradestimulant", "stimulants",
-            "Low-grade stimulant", "Stimulant effect is active",
-            overdoseLine: BuildDoseLine("before OD",
+            "杂牌兴奋剂", "兴奋剂效果生效中",
+            overdoseLine: BuildDoseLine("即达过量",
                 DoseToThreshold(CoUtils.instance.DurationOf("lowgradestimulant"), 160f, 3.25f),
                 DoseToThreshold(CoUtils.instance.DurationOf("lowgradestimulant"), 160f, 2.5f)));
         AddTimedOp(__instance, "naltrexone", "doktor_naltrexone", "naltrexone", "withdrawal",
-            "Naltrexone", "Opioid antagonist effect is active");
+            "纳曲酮", "阿片拮抗剂效果生效中");
         AddTimedOp(__instance, "chloroform", "doktor_chloroform", "chloroform", "asleep",
-            "Chloroform", "Sedative effect is active");
+            "氯仿", "镇静效果生效中");
         AddTimedOp(__instance, "biochem", "doktor_biochem", "biochem", "sick",
-            "Bio-chem ingestion", "Bio-chem exposure is causing harm", 3);
+            "口服生化流体", "生化流体暴露正在造成损伤", 3);
         AddTimedOp(__instance, "bleach", "doktor_bleach", "bleach", "sick",
-            "Bleach ingestion", "Caustic ingestion is causing harm", 3);
+            "口服漂白剂", "腐蚀性物质暴露正在造成损伤", 3);
         AddTimedOp(__instance, "oxylinedrink", "doktor_oxylinedrink", "oxyline", "oxygen",
-            "Ingested oxyline", "Oral oxyline exposure is harming the lungs", 3);
+            "口服氧脉素", "口服氧脉素暴露正在损伤肺部", 3);
 
         if (MoodleCount(__instance) != before)
         {
@@ -261,7 +261,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
         }
 
         AddBodyTimer(manager, duration, "doktor_antibiotics_" + antibioticId, antibioticId, "highimmunity",
-            "Antibiotic coverage", GetAntibioticDisplayName(antibioticId) + " coverage is active");
+            "抗生素覆盖", GetAntibioticDisplayName(antibioticId) + " 覆盖生效中");
     }
 
     private static void AddEarlyConditionMoodles(MoodleManager manager, Body body)
@@ -269,17 +269,17 @@ internal static class MoodleManagerAddAllMoodlesPatch
         if (body.strokeAmount > 0.05f && body.strokeAmount <= 70f)
         {
             int intensity = Mathf.Clamp(Mathf.CeilToInt(body.strokeAmount / 25f) - 1, 0, 3);
-            manager.AddMoodle(intensity, "stroke", "Stroke warning", $"Stroke progress: {body.strokeAmount:0}%.");
+            manager.AddMoodle(intensity, "stroke", "中风警告", $"中风进度: {body.strokeAmount:0}%");
         }
 
         if (body.hasPulmonaryEmbolism && WorldGeneration.unchipped)
         {
-            manager.AddMoodle(3, "pulmonaryembolism", "Embolism detected", "Pulmonary embolism detected.");
+            manager.AddMoodle(3, "pulmonaryembolism", "肺栓塞", "已检测到肺栓塞");
         }
         else if (!body.hasPulmonaryEmbolism && body.bloodViscosity > EmbolismRiskViscosity)
         {
             int intensity = body.bloodViscosity > 95f ? 3 : 2;
-            manager.AddMoodle(intensity, "pulmonaryembolism", "Embolism risk", $"Blood viscosity: {body.bloodViscosity:0}%.");
+            manager.AddMoodle(intensity, "pulmonaryembolism", "肺栓塞风险", $"血液黏稠度: {body.bloodViscosity:0}%");
         }
     }
 
@@ -356,34 +356,34 @@ internal static class MoodleManagerAddAllMoodlesPatch
         float antivenomMl = Mathf.Max(0f, total) / 0.8f;
 
         StringBuilder sb = new StringBuilder(512);
-        sb.Append("<color=#FFFFFF>Toxicosis: ").Append(current.ToString("0.#")).AppendLine("</color>");
-        sb.Append("Toxin reservoir: ").Append(total.ToString("0.#")).AppendLine();
-        sb.AppendLine("Current effects:");
-        sb.Append("Blood oxygen ceiling: ").Append(oxygenCap.ToString("0.#")).AppendLine("%");
+        sb.Append("<color=#FFFFFF>当前毒素水平: ").Append(current.ToString("0.#")).AppendLine("</color>");
+        sb.Append("毒素含量: ").Append(total.ToString("0.#")).AppendLine();
+        sb.AppendLine("当前效果:");
+        sb.Append("血氧饱和度上限: ").Append(oxygenCap.ToString("0.#")).AppendLine("%");
         if (body.bloodOxygen > oxygenCap)
         {
-            sb.AppendLine("-0.7 blood oxygen/s toward ceiling");
+            sb.AppendLine("-0.7 血氧/s 趋向上限");
         }
-        sb.Append('-').Append(bloodDrain.ToString("0.###")).AppendLine(" blood volume/s");
-        sb.Append("Blood viscosity target: ").Append(current.ToString("0.#"));
+        sb.Append('-').Append(bloodDrain.ToString("0.###")).AppendLine(" 血容量/s");
+        sb.Append("血液黏稠度目标: ").Append(current.ToString("0.#"));
         if (body.bloodViscosity < current)
         {
-            sb.Append(" (+").Append(viscosityRiseRate.ToString("0.###")).AppendLine("/s while below target)");
+            sb.Append(" (+").Append(viscosityRiseRate.ToString("0.###")).AppendLine("/s 低于目标期间)");
         }
         else
         {
             sb.AppendLine();
         }
-        sb.Append("Natural wound clotting: ").Append((venomClottingMultiplier * 100f).ToString("0.#")).AppendLine("% from toxicosis");
-        sb.Append("Current clotting rate: ").Append(clottingRate.ToString("0.####")).AppendLine(" bleed/s per wound");
+        sb.Append("自然伤口凝血: ").Append((venomClottingMultiplier * 100f).ToString("0.#")).AppendLine("% 来自当前毒素水平");
+        sb.Append("当前凝血速率: ").Append(clottingRate.ToString("0.####")).AppendLine(" 流血/s 每个伤口");
 
         sb.AppendLine();
-        sb.Append("Reservoir recovery: -").Append(toxinClearRate.ToString("0.###")).AppendLine("/s toward 0");
-        sb.Append("Current tracking reservoir: ").Append(currentChange >= 0f ? "+" : "")
+        sb.Append("毒素含量消退: -").Append(toxinClearRate.ToString("0.###")).AppendLine("/s 趋向 0");
+        sb.Append("毒素含量追踪: ").Append(currentChange >= 0f ? "+" : "")
             .Append(currentChange.ToString("0.###")).AppendLine("/s");
-        sb.Append("Antivenom to clear reservoir: ").Append(antivenomMl.ToString("0.#")).AppendLine("mL injected");
+        sb.Append("清空毒素含量所需抗毒血清: ").Append(antivenomMl.ToString("0.#")).AppendLine("mL 注射");
         sb.AppendLine();
-        sb.Append("Tiers: 2 / 25 / 55 / 90. Clotting reaches 0% at 20.");
+        sb.Append("档位: 2 / 25 / 55 / 90\n达到 20 时凝血降至 0%");
         return sb.ToString();
     }
 
@@ -393,10 +393,10 @@ internal static class MoodleManagerAddAllMoodlesPatch
 
         if (body.TryGetComponent(out Antidepressants antidepressants) && antidepressants.currentAmount >= 250f)
         {
-            AppendOverdoseSection(sb, "Antidepressants",
+            AppendOverdoseSection(sb, "抗抑郁药",
                 FormatSingleRouteOverdose(antidepressants.currentAmount, 250f, 5f));
-            sb.AppendLine("Current effects:");
-            sb.AppendLine("-3 blood pressure/s");
+            sb.AppendLine("当前效果:");
+            sb.AppendLine("-3 血压/s");
         }
 
         if (body.TryGetComponent(out SleepingPills sleepingPills))
@@ -406,14 +406,14 @@ internal static class MoodleManagerAddAllMoodlesPatch
                 : 900f;
             if (sleepingPills.amount > threshold)
             {
-                AppendOverdoseSection(sb, "Sleeping pills",
+                AppendOverdoseSection(sb, "安眠药",
                     FormatSingleRouteOverdose(sleepingPills.amount, threshold, 60f));
-                sb.AppendLine("Current effects:");
-                sb.AppendLine(body.conscious ? "-2.5 blood pressure/s" : "-5 blood pressure/s");
-                sb.AppendLine(body.conscious ? "Respiration moves toward 70 at 15/s" : "Respiration moves toward 40 at 15/s");
+                sb.AppendLine("当前效果:");
+                sb.AppendLine(body.conscious ? "-2.5 血压/s" : "-5 血压/s");
+                sb.AppendLine(body.conscious ? "呼吸以 15/s 趋向 70" : "呼吸以 15/s 趋向 40");
                 if (!body.conscious)
                 {
-                    sb.AppendLine("-1 heart rate/s");
+                    sb.AppendLine("-1 心率/s");
                 }
             }
         }
@@ -421,59 +421,59 @@ internal static class MoodleManagerAddAllMoodlesPatch
         float antiradDuration = CoUtils.instance.DurationOf("antirad");
         if (antiradDuration > 180f)
         {
-            AppendOverdoseSection(sb, "Anti-radiation medicine",
+            AppendOverdoseSection(sb, "抗辐射药",
                 FormatSingleRouteOverdose(antiradDuration, 180f, 4.5f));
-            sb.AppendLine("Current effects:");
-            sb.AppendLine("+0.6 sickness/s");
-            sb.AppendLine("+1.5 thorax pain/s");
+            sb.AppendLine("当前效果:");
+            sb.AppendLine("+0.6 反胃程度/s");
+            sb.AppendLine("+1.5 胸部疼痛/s");
         }
 
         float highGradeDuration = CoUtils.instance.DurationOf("highgradestimulant");
         if (highGradeDuration > 320f)
         {
-            AppendOverdoseSection(sb, "High-grade stimulant",
+            AppendOverdoseSection(sb, "医用级兴奋剂",
                 FormatDualRouteOverdose(highGradeDuration, 320f, 2.4f, 2f));
-            sb.AppendLine("Current effects:");
-            sb.AppendLine("18% chance/s: +3 shaking");
-            sb.AppendLine("6% chance/s: ragdoll");
-            sb.AppendLine("5% chance/s: -50 consciousness");
-            sb.AppendLine("5% chance/s: -1 temperature");
-            sb.AppendLine("3% chance/s: reverse controls");
-            sb.AppendLine("-0.1 stimulant multiplier/s (to -0.5)");
+            sb.AppendLine("当前效果:");
+            sb.AppendLine("18% 概率/s: +3 身体抖动");
+            sb.AppendLine("6% 概率/s: 布娃娃状态");
+            sb.AppendLine("5% 概率/s: -50 意识清醒度");
+            sb.AppendLine("5% 概率/s: -1 核心体温");
+            sb.AppendLine("3% 概率/s: 操作和画面随机镜像翻转");
+            sb.AppendLine("-0.1 兴奋剂倍率/s (至 -0.5)");
         }
 
         float midGradeDuration = CoUtils.instance.DurationOf("midgradestimulant");
         if (midGradeDuration > 220f)
         {
-            AppendOverdoseSection(sb, "Medical-grade stimulant",
+            AppendOverdoseSection(sb, "强效兴奋剂",
                 FormatSingleRouteOverdose(midGradeDuration, 220f, 3.6f));
-            sb.AppendLine("Current effects:");
-            sb.AppendLine("+0.15 internal bleeding/s");
-            sb.AppendLine("-0.05 brain health/s");
-            sb.AppendLine("+4 thorax pain/s (while below 60)");
-            sb.AppendLine("18% chance/s: +1.5 shaking");
-            sb.AppendLine("10% chance/s: -35 stamina");
-            sb.AppendLine("6% chance/s: ragdoll");
+            sb.AppendLine("当前效果:");
+            sb.AppendLine("+0.15 内出血/s");
+            sb.AppendLine("-0.05 脑组织完整度/s");
+            sb.AppendLine("+4 胸部疼痛/s (低于 60 时)");
+            sb.AppendLine("18% 概率/s: +1.5 身体抖动");
+            sb.AppendLine("10% 概率/s: -35 体力");
+            sb.AppendLine("6% 概率/s: 布娃娃状态");
         }
 
         float lowGradeDuration = CoUtils.instance.DurationOf("lowgradestimulant");
         if (lowGradeDuration > 160f)
         {
-            AppendOverdoseSection(sb, "Low-grade stimulant",
+            AppendOverdoseSection(sb, "杂牌兴奋剂",
                 FormatDualRouteOverdose(lowGradeDuration, 160f, 3.25f, 2.5f));
-            sb.AppendLine("Current effects:");
-            sb.AppendLine("+0.04 temperature/s");
-            sb.AppendLine("-0.08 brain health/s");
-            sb.AppendLine("+4 head and thorax pain/s (while below 60)");
-            sb.AppendLine("20% chance/s: +1.5 shaking");
-            sb.AppendLine("10% chance/s: -25 stamina");
-            sb.AppendLine("10% chance/s: ragdoll");
-            sb.AppendLine("7.5% chance/s: -3 blood oxygen");
-            sb.AppendLine("6% chance/s: unconscious");
-            sb.AppendLine("4% chance/s: -10 energy");
-            sb.AppendLine("3.5% chance/s: vomit");
-            sb.AppendLine("3% chance/s: reverse controls");
-            sb.AppendLine("2% chance/s: clear adrenaline");
+            sb.AppendLine("当前效果:");
+            sb.AppendLine("+0.04 核心体温/s");
+            sb.AppendLine("-0.08 脑组织完整度/s");
+            sb.AppendLine("+4 头部与胸部疼痛/s (低于 60 时)");
+            sb.AppendLine("20% 概率/s: +1.5 身体抖动");
+            sb.AppendLine("10% 概率/s: -25 体力");
+            sb.AppendLine("10% 概率/s: 布娃娃状态");
+            sb.AppendLine("7.5% 概率/s: -3 血氧饱和度");
+            sb.AppendLine("6% 概率/s: 无意识");
+            sb.AppendLine("4% 概率/s: -10 精力");
+            sb.AppendLine("3.5% 概率/s: 呕吐");
+            sb.AppendLine("3% 概率/s: 操作和画面随机镜像翻转");
+            sb.AppendLine("2% 概率/s: 肾上腺素水平归零");
         }
 
         return sb.ToString();
@@ -486,7 +486,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
             sb.AppendLine();
         }
 
-        sb.Append("<color=#FFFFFF>").Append(name).Append(": ").Append(amount).AppendLine(" OD</color>");
+        sb.Append("<color=#FFFFFF>").Append(name).Append(" 过量 ").Append(amount).AppendLine("</color>");
     }
 
     private static string FormatSingleRouteOverdose(float current, float threshold, float amountPerMl)
@@ -497,8 +497,8 @@ internal static class MoodleManagerAddAllMoodlesPatch
     private static string FormatDualRouteOverdose(float current, float threshold, float injectedPerMl, float ingestedPerMl)
     {
         float excess = Mathf.Max(0f, current - threshold);
-        return (excess / injectedPerMl).ToString("0.#") + "mL injected / " +
-            (excess / ingestedPerMl).ToString("0.#") + "mL ingested";
+        return "注射 " + (excess / injectedPerMl).ToString("0.#") + "mL / 口服 " +
+            (excess / ingestedPerMl).ToString("0.#") + "mL";
     }
 
     private static void AddBodyTimer(MoodleManager manager, float duration, string iconKey, string itemResource,
@@ -515,7 +515,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
             return;
         }
 
-        string desc = $"{descPrefix} for {FormatDuration(duration)}.";
+        string desc = $"{descPrefix}, 持续 {FormatDuration(duration)}";
         if (!string.IsNullOrEmpty(overdoseLine))
         {
             desc += "\n" + overdoseLine;
@@ -530,12 +530,12 @@ internal static class MoodleManagerAddAllMoodlesPatch
         if (pressureMedicine > 0.5f)
         {
             AddBodyTimer(manager, pressureMedicine, "doktor_sodiumnitroprusside", "sodiumnitroprusside", "hypotension",
-                "Sodium nitroprusside", "Blood pressure lowering effect is active");
+                "硝普钠", "降压效果生效中");
         }
         else if (pressureMedicine < -0.5f)
         {
             AddBodyTimer(manager, -pressureMedicine, "doktor_vasopressin", "vasopressin", "hypertension",
-                "Vasopressin", "Blood pressure raising effect is active");
+                "血管加压素", "升压效果生效中");
         }
     }
 
@@ -547,7 +547,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
         }
 
         AddBodyTimer(manager, antidepressants.amount / 0.185f, "doktor_antidepressants", "antidepressants", "happy",
-            "Antidepressants", "Mood stabilizing effect is active", overdoseLine: BuildDoseLine("before OD", null,
+            "抗抑郁药", "情绪稳定效果生效中", overdoseLine: BuildDoseLine("即达过量", null,
                 DoseToThreshold(Mathf.Max(antidepressants.currentAmount, antidepressants.amount), 250f, 5f)));
     }
 
@@ -560,7 +560,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
 
         float threshold = body.TryGetComponent(out Painkillers painkillers) && painkillers.actualOpiateReception > 15f ? 150f : 900f;
         AddBodyTimer(manager, sleepingPills.amount, "doktor_sleepingpills", "sleepingpills", "asleep",
-            "Sleeping pills", "Sedative effect is active", overdoseLine: BuildDoseLine("before OD", null,
+            "安眠药", "镇静效果生效中", overdoseLine: BuildDoseLine("即达过量", null,
                 DoseToThreshold(sleepingPills.amount, threshold, 60f)));
     }
 
@@ -586,23 +586,23 @@ internal static class MoodleManagerAddAllMoodlesPatch
         }
 
         StringBuilder desc = new StringBuilder(256);
-        desc.Append("Actual opiate reception: ").Append(painkillers.actualOpiateReception.ToString("0.#")).Append(".");
+        desc.Append("实际阿片受体水平: ").Append(painkillers.actualOpiateReception.ToString("0.#")).Append(".");
         desc.AppendLine();
-        desc.Append("Opium: ").Append(BuildDoseLine("before OD",
+        desc.Append("鸦片: ").Append(BuildDoseLine("即达过量",
             DoseToThreshold(baseline, 80f, 0.4f), DoseToThreshold(baseline, 80f, 0.2f)));
         desc.AppendLine();
-        desc.Append("Morphine: ").Append(BuildDoseLine("before OD",
+        desc.Append("吗啡: ").Append(BuildDoseLine("即达过量",
             DoseToThreshold(baseline, 80f, 0.9f), DoseToThreshold(baseline, 80f, 0.4f)));
         desc.AppendLine();
-        desc.Append("Painkillers: ").Append(BuildDoseLine("before OD",
+        desc.Append("止痛药: ").Append(BuildDoseLine("即达过量",
             null, DoseToThreshold(baseline, 80f, 1.4f)));
         desc.AppendLine();
-        desc.Append("Heroin: ").Append(BuildDoseLine("before OD",
+        desc.Append("海洛因: ").Append(BuildDoseLine("即达过量",
             DoseToThreshold(baseline, 80f, 1.3f), DoseToThreshold(baseline, 80f, 0.6f)));
         desc.AppendLine();
-        desc.Append("Fentanyl: ").Append(BuildDoseLine("before OD",
+        desc.Append("芬太尼: ").Append(BuildDoseLine("即达过量",
             DoseToThreshold(baseline, 80f, 42f), DoseToThreshold(baseline, 80f, 40f)));
-        AddScaledMoodle(manager, 5, icon, "Opiate exposure", desc.ToString());
+        AddScaledMoodle(manager, 5, icon, "阿片类暴露", desc.ToString());
     }
 
     private static void AddScaledMoodle(MoodleManager manager, int intensity, string icon, string name, string desc)
@@ -676,7 +676,7 @@ internal static class MoodleManagerAddAllMoodlesPatch
     private static string GetAntibioticDisplayName(string id)
     {
         string localized = Locale.GetItem(id);
-        return string.IsNullOrWhiteSpace(localized) ? "Antibiotic" : localized;
+        return string.IsNullOrWhiteSpace(localized) ? "抗生素" : localized;
     }
 
     private static void RemoveVanillaBonusBadge(MoodleManager manager)
@@ -733,17 +733,17 @@ internal static class MoodleManagerAddAllMoodlesPatch
 
     private static string BuildDoseLine(string suffix, float? injectMl, float? ingestMl)
     {
-        return FormatDose(injectMl) + " to inject, " + FormatDose(ingestMl) + " to ingest " + suffix + ".";
+        return "距过量: 注射 " + FormatDose(injectMl) + " / 口服 " + FormatDose(ingestMl) + " (" + suffix + ")。";
     }
 
     private static string FormatDose(float? ml)
     {
         if (!ml.HasValue)
         {
-            return "N/A";
+            return "不适用";
         }
 
-        return ml.Value <= 0f ? "OD now" : ml.Value.ToString("0.#") + "mL";
+        return ml.Value <= 0f ? "已过量" : ml.Value.ToString("0.#") + "mL";
     }
 }
 
@@ -1045,13 +1045,13 @@ internal static class HealthPanelAugmentController
 
         if (body.strokeAmount > 0.05f)
         {
-            view.versionText.text = $"STROKE {body.strokeAmount:0}%";
+            view.versionText.text = $"中风 {body.strokeAmount:0}%";
             view.versionText.color = Color.red;
             view.versionText.enabled = Mathf.Sin(Time.unscaledTime * 20f) > 0f;
             return;
         }
 
-        if (view.versionText.text.StartsWith("STROKE", StringComparison.Ordinal))
+        if (view.versionText.text.StartsWith("中风", StringComparison.Ordinal))
         {
             view.versionText.text = string.IsNullOrWhiteSpace(WoundView.firmwareVer) ? originalVersionText : "UNI-HEALTH " + WoundView.firmwareVer;
         }
@@ -1077,13 +1077,13 @@ internal static class HealthPanelAugmentController
 
         if (body.hasPulmonaryEmbolism)
         {
-            peText.text = "EMBOLISM FOUND";
+            peText.text = "肺栓塞已发生";
             peText.color = UiRed;
             peText.enabled = Mathf.Sin(Time.unscaledTime * 20f) > 0f;
             return;
         }
 
-        peText.text = "EMBOLISM RISK";
+        peText.text = "肺栓塞风险";
         peText.color = UiOrange;
         peText.enabled = true;
     }
@@ -1104,7 +1104,7 @@ internal static class HealthPanelAugmentController
         }
 
         hemothoraxText.enabled = true;
-        hemothoraxText.text = $"{body.hemothorax:0}% Hemothorax";
+        hemothoraxText.text = $"{body.hemothorax:0}% 血胸";
         hemothoraxText.color = HemothoraxColor(body.hemothorax);
     }
 
@@ -1174,8 +1174,8 @@ internal static class HealthPanelAugmentController
             string.Empty);
         viscosityWidget.Update(body.bloodViscosity, -100f, 100f, -25f, 50f, -60f, 80f, -90f, 95f, -25f, 50f,
             $"{body.bloodViscosity:0}");
-        SetTooltip(pressureWidget.Root, "Blood pressure", BuildBloodPressureTooltip(body));
-        SetTooltip(viscosityWidget.Root, "Blood viscosity", BuildViscosityTooltip(body));
+        SetTooltip(pressureWidget.Root, "血压", BuildBloodPressureTooltip(body));
+        SetTooltip(viscosityWidget.Root, "血液黏稠度", BuildViscosityTooltip(body));
 
         Painkillers painkillers = null;
         bool hasOpiate = body.TryGetComponent(out painkillers) && Mathf.Abs(painkillers.opiateTolerance) > 0.001f;
@@ -1186,8 +1186,8 @@ internal static class HealthPanelAugmentController
             float reception = painkillers != null ? painkillers.actualOpiateReception : 0f;
             float tolerance = painkillers != null ? painkillers.opiateTolerance : 0f;
             opiateWidget.Update(reception, -60f, 90f, -15f, 80f, -25f, 50f, -34f, 80f, -15f, 80f,
-                $"Rec: {reception:0.#}\nTol: {tolerance * 0.01f:0.0}u");
-            SetTooltip(opiateWidget.Root, "Opiate reception", BuildOpiateTooltip(painkillers));
+                $"受体水平: {reception:0.#}\n耐受: {tolerance * 0.01f:0.0}u");
+            SetTooltip(opiateWidget.Root, "阿片受体水平", BuildOpiateTooltip(painkillers));
         }
 
         bool hasFib = body.fibrillationProgress > 0.05f;
@@ -1211,7 +1211,7 @@ internal static class HealthPanelAugmentController
             lastFibTime = now;
             Vector2 ecgRange = SampleEcgRange(body);
             fibWidget.Update(body.fibrillationProgress, smoothedFibRate, ecgRange.x, ecgRange.y);
-            SetTooltip(fibWidget.Root, "Fibrillation", BuildFibrillationTooltip(body, smoothedFibRate));
+            SetTooltip(fibWidget.Root, "室颤进度", BuildFibrillationTooltip(body, smoothedFibRate));
         }
         else
         {
@@ -1265,28 +1265,28 @@ internal static class HealthPanelAugmentController
     private static void UpdateHealthValueTooltips(WoundView view, Body body)
     {
         string moodTooltip = BuildMoodTooltip(body);
-        SetTooltip(view.happyText, "Mood", moodTooltip);
+        SetTooltip(view.happyText, "情绪值", moodTooltip);
         if (view.happinessIcon != null)
         {
             view.happinessIcon.raycastTarget = true;
-            SetTooltip(view.happinessIcon.gameObject, "Mood", moodTooltip);
+            SetTooltip(view.happinessIcon.gameObject, "情绪值", moodTooltip);
         }
 
-        SetTooltip(view.energyText, "Energy", BuildEnergyTooltip(body));
-        SetTooltip(view.immunityText, "Immunity", BuildImmunityTooltip(body));
-        SetTooltip(view.painText, "Pain", BuildPainTooltip(body));
-        SetTooltip(view.weightText, "Weight", BuildWeightTooltip(body));
-        SetTooltip(view.sickText, "Sickness", BuildSicknessTooltip(body));
-        SetTooltip(view.brainHealthText, "Brain health", BuildBrainTooltip(body));
+        SetTooltip(view.energyText, "精力", BuildEnergyTooltip(body));
+        SetTooltip(view.immunityText, "免疫力", BuildImmunityTooltip(body));
+        SetTooltip(view.painText, "总疼痛度", BuildPainTooltip(body));
+        SetTooltip(view.weightText, "体重", BuildWeightTooltip(body));
+        SetTooltip(view.sickText, "反胃程度", BuildSicknessTooltip(body));
+        SetTooltip(view.brainHealthText, "脑组织完整度", BuildBrainTooltip(body));
         SetHeartPressureTooltips(view, body);
-        SetTooltip(view.oxyText, "Blood oxygen", BuildOxygenTooltip(body));
-        SetTooltip(view.bleedText, "Bleeding", BuildBleedingTooltip(body));
-        SetTooltip(view.bloodText, "Blood volume", BuildBloodVolumeTooltip(body));
-        SetTooltip(view.hungerText, "Hunger", BuildHungerTooltip(body));
-        SetTooltip(view.thirstText, "Thirst", BuildThirstTooltip(body));
-        SetTooltip(view.limbForceText, "Limb strength", BuildLimbStrengthTooltip(view, body));
-        SetTooltip(view.radText, "Radiation", BuildRadiationTooltip(body));
-        SetTooltip(view.tempText, "Temperature", BuildTemperatureTooltip(body));
+        SetTooltip(view.oxyText, "血氧饱和度", BuildOxygenTooltip(body));
+        SetTooltip(view.bleedText, "总失血速度", BuildBleedingTooltip(body));
+        SetTooltip(view.bloodText, "血容量", BuildBloodVolumeTooltip(body));
+        SetTooltip(view.hungerText, "饥饿", BuildHungerTooltip(body));
+        SetTooltip(view.thirstText, "口渴", BuildThirstTooltip(body));
+        SetTooltip(view.limbForceText, "肢体力量", BuildLimbStrengthTooltip(view, body));
+        SetTooltip(view.radText, "辐射量", BuildRadiationTooltip(body));
+        SetTooltip(view.tempText, "核心体温", BuildTemperatureTooltip(body));
     }
 
     private static string BuildMoodTooltip(Body body)
@@ -1307,28 +1307,28 @@ internal static class HealthPanelAugmentController
         float horrorFactor = 1f - body.horrifiedLevel * 0.005f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", body.totalHappiness.ToString("0.#"));
-        AppendLine(sb, "Base happiness", Signed(body.happiness));
-        AppendLine(sb, "Bleeding", Signed(bleeding));
-        AppendLine(sb, "Pain", Signed(pain));
-        AppendLine(sb, "Sickness", Signed(sickness));
-        AppendLine(sb, "Hunger", Signed(hunger));
-        AppendLine(sb, "Thirst", Signed(thirst));
-        AppendLine(sb, "Radiation", Signed(radiation));
-        AppendLine(sb, "Hearing loss", Signed(hearing));
-        AppendLine(sb, "Blood loss", Signed(blood));
-        AppendLine(sb, "Trauma", Signed(trauma));
-        AppendLine(sb, "Wetness", Signed(wetness));
-        AppendLine(sb, "Opiates", Signed(body.opiateHappiness));
-        AppendLine(sb, "Antidepressants", Signed(body.antidepressantHappiness));
-        AppendLine(sb, "Raw / clamped", $"{raw:0.#} / {clamped:0.#}");
+        AppendLine(sb, "当前", body.totalHappiness.ToString("0.#"));
+        AppendLine(sb, "基础情绪值", Signed(body.happiness));
+        AppendLine(sb, "失血", Signed(bleeding));
+        AppendLine(sb, "疼痛", Signed(pain));
+        AppendLine(sb, "反胃程度", Signed(sickness));
+        AppendLine(sb, "饥饿", Signed(hunger));
+        AppendLine(sb, "口渴", Signed(thirst));
+        AppendLine(sb, "辐射量", Signed(radiation));
+        AppendLine(sb, "听力损失", Signed(hearing));
+        AppendLine(sb, "血容量损失", Signed(blood));
+        AppendLine(sb, "创伤", Signed(trauma));
+        AppendLine(sb, "潮湿", Signed(wetness));
+        AppendLine(sb, "阿片类药物水平", Signed(body.opiateHappiness));
+        AppendLine(sb, "抗抑郁药", Signed(body.antidepressantHappiness));
+        AppendLine(sb, "原始 / clamped", $"{raw:0.#} / {clamped:0.#}");
         if (body.mindWipe)
         {
-            AppendLine(sb, "Mindwipe", "x0");
+            AppendLine(sb, "精神抹除", "x0");
         }
         if (!Mathf.Approximately(horrorFactor, 1f))
         {
-            AppendLine(sb, "Horror", $"x{horrorFactor:0.###}");
+            AppendLine(sb, "恐惧值", $"x{horrorFactor:0.###}");
         }
 
         float metabolism = WorldGeneration.GetRunSettingFloat("metabolismrate");
@@ -1338,8 +1338,8 @@ internal static class HealthPanelAugmentController
             float normalization = body.sleeping
                 ? 0.01f * (body.happiness < 0f ? 1f : 0.5f) * WorldGeneration.GetRunSettingFloat("moodnormalizationrate")
                 : 0f;
-            AppendLine(sb, "State", body.sleeping ? "Sleeping" : "Unconscious");
-            AppendLine(sb, "Base normalization", normalization > 0f ? $"{normalization:0.###}/s toward 0" : "None");
+            AppendLine(sb, "状态", body.sleeping ? "睡眠" : "无意识");
+            AppendLine(sb, "基础变化", normalization > 0f ? $"{normalization:0.###}/s 趋向 0" : "无");
         }
         else
         {
@@ -1355,25 +1355,37 @@ internal static class HealthPanelAugmentController
             float directRate = wellFedGain - sicknessDrain - hungerDrain - thirstDrain - painDrain - bleedDrain -
                 temperatureDrain;
 
-            AppendLine(sb, "Direct change", SignedFine(directRate, "/s"));
-            AppendLine(sb, "Sickness drain", $"-{sicknessDrain:0.###}/s");
-            AppendLine(sb, "Hunger drain", $"-{hungerDrain:0.###}/s");
-            AppendLine(sb, "Thirst drain", $"-{thirstDrain:0.###}/s");
-            AppendLine(sb, "Pain drain", $"-{painDrain:0.###}/s");
-            AppendLine(sb, "Bleeding drain", $"-{bleedDrain:0.###}/s");
-            AppendLine(sb, "Temperature drain", $"-{temperatureDrain:0.###}/s");
-            AppendLine(sb, "Well-fed gain", $"+{wellFedGain:0.###}/s");
-            sb.AppendLine("Base happiness also slowly normalizes toward 0.");
+            AppendLine(sb, "直接变化", SignedFine(directRate, "/s"));
+            AppendLine(sb, "反胃程度消耗", $"-{sicknessDrain:0.###}/s");
+            AppendLine(sb, "饥饿消耗", $"-{hungerDrain:0.###}/s");
+            AppendLine(sb, "口渴消耗", $"-{thirstDrain:0.###}/s");
+            AppendLine(sb, "疼痛消耗", $"-{painDrain:0.###}/s");
+            AppendLine(sb, "失血消耗", $"-{bleedDrain:0.###}/s");
+            AppendLine(sb, "核心体温消耗", $"-{temperatureDrain:0.###}/s");
+            AppendLine(sb, "吃饱增益", $"+{wellFedGain:0.###}/s");
+            sb.AppendLine("基础情绪值会缓慢趋向 0。");
         }
 
         sb.AppendLine();
-        sb.Append("Icon tiers: >50, >10, >-10, >-40, >-75, and critical. ")
-            .Append("At -75 or below, the medical cutoff is failed.");
+        sb.Append("状态图标档位: >50, >10, >-10, >-30, >-50, >-75, 低于 -75 时进入危险状态。")
+            .Append("\n低于 -75 时, 医疗面板无法使用非阿片类物品。");
         return sb.ToString();
     }
 
     private static string BuildEnergyTooltip(Body body)
     {
+        string SleepQualityName(Body.SleepQuality q)
+        {
+            switch (q)
+            {
+                case Body.SleepQuality.Bad: return "糟糕";
+                case Body.SleepQuality.Mediocre: return "一般";
+                case Body.SleepQuality.Okay: return "普通";
+                case Body.SleepQuality.Good: return "优质";
+                default: return "普通";
+            }
+        }
+
         float sleepCycleSpeed = WorldGeneration.GetRunSettingFloat("sleepcyclespeed");
         Painkillers painkillers = body.GetComponent<Painkillers>();
         float opiateDrain = painkillers != null && painkillers.actualOpiateReception > 30f
@@ -1381,28 +1393,29 @@ internal static class HealthPanelAugmentController
             : 0f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.energy:0.#}%");
+        AppendLine(sb, "当前", $"{body.energy:0.#}%");
 
         if (!body.alive)
         {
-            AppendLine(sb, "State", "Dead");
-            AppendLine(sb, "Change", opiateDrain > 0f ? $"-{opiateDrain:0.###}/s from opiates" : "None");
+            AppendLine(sb, "状态", "死亡");
+            AppendLine(sb, "变化", opiateDrain > 0f ? $"-{opiateDrain:0.###}/s 来自阿片类药物" : "无");
         }
         else if (!body.conscious)
         {
             Body.SleepQuality quality = body.forcedSleepQuality ?? body.curSleep;
+            string qualityName = SleepQualityName(quality);
             float qualityMultiplier = body.SleepQualityToRegen(quality);
             float regeneration = 0.4f * qualityMultiplier * sleepCycleSpeed;
             float net = regeneration - opiateDrain;
-            AppendLine(sb, "State", body.sleeping ? $"Sleeping ({quality})" : $"Unconscious ({quality})");
-            AppendLine(sb, "Base sleep regen", "+0.4/s");
-            AppendLine(sb, "Sleep quality", $"x{qualityMultiplier:0.##}");
-            AppendLine(sb, "Sleep-cycle setting", $"x{sleepCycleSpeed:0.##}");
+            AppendLine(sb, "状态", body.sleeping ? $"睡眠 ({qualityName})" : $"无意识 ({qualityName})");
+            AppendLine(sb, "基础睡眠恢复", "+0.4/s");
+            AppendLine(sb, "睡眠质量", $"x{qualityMultiplier:0.##}");
+            AppendLine(sb, "精力变化速度设置", $"x{sleepCycleSpeed:0.##}");
             if (opiateDrain > 0f)
             {
-                AppendLine(sb, "High-opiate drain", $"-{opiateDrain:0.###}/s");
+                AppendLine(sb, "高阿片类药物水平消耗", $"-{opiateDrain:0.###}/s");
             }
-            AppendLine(sb, "Net change", SignedFine(net, "/s"));
+            AppendLine(sb, "净变化", SignedFine(net, "/s"));
         }
         else
         {
@@ -1413,28 +1426,29 @@ internal static class HealthPanelAugmentController
             float drain = 0.07f * sleepCycleSpeed * staminaFactor * sicknessFactor * moodFactor * caffeineFactor;
             float netDrain = drain + opiateDrain;
 
-            AppendLine(sb, "State", "Awake");
-            AppendLine(sb, "Base drain", "-0.07/s");
-            AppendLine(sb, "Low stamina", $"x{staminaFactor:0.###}");
-            AppendLine(sb, "Sickness", $"x{sicknessFactor:0.###}");
-            AppendLine(sb, "Negative mood", $"x{moodFactor:0.###}");
-            AppendLine(sb, "Caffeine", $"x{caffeineFactor:0.##}");
-            AppendLine(sb, "Sleep-cycle setting", $"x{sleepCycleSpeed:0.##}");
+            AppendLine(sb, "状态", "清醒");
+            AppendLine(sb, "基础消耗", "-0.07/s");
+            AppendLine(sb, "低体力值", $"x{staminaFactor:0.###}");
+            AppendLine(sb, "反胃程度", $"x{sicknessFactor:0.###}");
+            AppendLine(sb, "负数情绪值", $"x{moodFactor:0.###}");
+            AppendLine(sb, "咖啡因", $"x{caffeineFactor:0.##}");
+            AppendLine(sb, "精力变化速度设置", $"x{sleepCycleSpeed:0.##}");
             if (opiateDrain > 0f)
             {
-                AppendLine(sb, "High-opiate drain", $"-{opiateDrain:0.###}/s");
+                AppendLine(sb, "高阿片类药物水平消耗", $"-{opiateDrain:0.###}/s");
             }
-            AppendLine(sb, "Net change", $"-{netDrain:0.###}/s");
+            AppendLine(sb, "净变化", $"-{netDrain:0.###}/s");
         }
 
         Body.SleepQuality currentQuality = body.forcedSleepQuality ?? body.curSleep;
+        string currentQualityName = SleepQualityName(currentQuality);
         float normalWakeTarget = currentQuality == Body.SleepQuality.Bad
             ? 70f
             : currentQuality == Body.SleepQuality.Mediocre ? 85f : 99f;
         sb.AppendLine();
-        sb.Append("Below 35% you can normally choose to sleep. Normal wake target for ")
-            .Append(currentQuality).Append(" sleep: ").Append(normalWakeTarget.ToString("0")).Append("%. ")
-            .Append("Energy also affects immunity, stamina recovery, body heat, and consciousness.");
+        sb.Append("低于 35% 时, 通常可以选择睡觉。")
+            .Append(currentQualityName).Append("睡眠的正常醒来目标: ").Append(normalWakeTarget.ToString("0")).Append("%。 ")
+            .Append("精力还会影响免疫力、体力恢复、核心体温和意识清醒度。");
         return sb.ToString();
     }
 
@@ -1457,11 +1471,11 @@ internal static class HealthPanelAugmentController
             return;
         }
 
-        SetTooltip(label, "Heart rate", BuildHeartRateTooltip(body));
+        SetTooltip(label, "心率", BuildHeartRateTooltip(body));
         Transform pressureHover = view.transform.Find("StatMenu/PressureHover");
         if (pressureHover != null)
         {
-            SetTooltip(pressureHover.gameObject, "Blood pressure", BuildBloodPressureTooltip(body));
+            SetTooltip(pressureHover.gameObject, "血压", BuildBloodPressureTooltip(body));
         }
     }
 
@@ -1492,23 +1506,23 @@ internal static class HealthPanelAugmentController
         float raw = 100f + hunger + thirst + energy + temperature + blood - dirt - sickness - radiation + antibiotic;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.immunity:0.#}/200 (raw {raw:0.#})");
-        AppendLine(sb, "Base", "+100.0");
-        AppendLine(sb, "Hunger", Signed(hunger));
-        AppendLine(sb, "Thirst", Signed(thirst));
-        AppendLine(sb, "Energy", Signed(energy));
-        AppendLine(sb, "Temperature", Signed(temperature));
-        AppendLine(sb, "Blood volume", Signed(blood));
-        AppendLine(sb, "Dirt", Signed(-dirt));
-        AppendLine(sb, "Sickness", Signed(-sickness));
-        AppendLine(sb, "Radiation", Signed(-radiation));
+        AppendLine(sb, "当前", $"{body.immunity:0.#}/200 (原始 {raw:0.#})");
+        AppendLine(sb, "基础", "+100.0");
+        AppendLine(sb, "饥饿", Signed(hunger));
+        AppendLine(sb, "口渴", Signed(thirst));
+        AppendLine(sb, "精力", Signed(energy));
+        AppendLine(sb, "核心体温", Signed(temperature));
+        AppendLine(sb, "血容量", Signed(blood));
+        AppendLine(sb, "肮脏程度", Signed(-dirt));
+        AppendLine(sb, "反胃程度", Signed(-sickness));
+        AppendLine(sb, "辐射量", Signed(-radiation));
         if (antibiotic > 0f)
         {
-            AppendLine(sb, "Antibiotics", "+70.0");
+            AppendLine(sb, "抗生素", "+70.0");
         }
 
         sb.AppendLine();
-        sb.Append("Infection speed curve value: ").Append(body.curImmunityMult.ToString("0.###"));
+        sb.Append("感染速度曲线值: ").Append(body.curImmunityMult.ToString("0.###"));
         return sb.ToString();
     }
 
@@ -1518,11 +1532,11 @@ internal static class HealthPanelAugmentController
         float resilienceMult = 1f - body.skills.RESFrom10 * 0.025f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.averagePain:0.#}%");
-        AppendLine(sb, "Adrenaline mask", $"-{adrenalineReduction:0.#} per limb");
-        AppendLine(sb, "RES multiplier", $"{resilienceMult:0.###}x");
+        AppendLine(sb, "当前", $"{body.averagePain:0.#}%");
+        AppendLine(sb, "肾上腺素掩盖", $"-{adrenalineReduction:0.#} 每个肢体");
+        AppendLine(sb, "韧性倍率", $"{resilienceMult:0.###}x");
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Worst limbs</color>");
+        sb.AppendLine("<color=#FFFFFF>伤势最重的肢体</color>");
 
         Limb first = null;
         Limb second = null;
@@ -1569,8 +1583,8 @@ internal static class HealthPanelAugmentController
         AppendLimbPain(sb, second, secondPain);
         AppendLimbPain(sb, third, thirdPain);
         sb.AppendLine();
-        AppendLine(sb, "Trauma rises", body.averagePain > 50f ? $"{body.averagePain * 0.0034f:0.###}/s" : "above 50% pain");
-        AppendLine(sb, "Pain shock", body.averagePain > 75f ? $"{body.painShock:0%}" : "starts above 75%");
+        AppendLine(sb, "创伤", body.averagePain > 50f ? $"{body.averagePain * 0.0034f:0.###}/s" : "疼痛超过 50% 时开始增长");
+        AppendLine(sb, "疼痛休克", body.averagePain > 75f ? $"{body.painShock:0%}" : "疼痛超过 75% 时开始增长");
         return sb.ToString();
     }
 
@@ -1588,22 +1602,22 @@ internal static class HealthPanelAugmentController
         float kgToBestCap = body.weightOffset < -15f ? WeightKg(-15f) - kg : 0f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{WeightTierName(body.weightOffset)} at {kg:0.0}kg (offset {body.weightOffset:0.#})");
-        AppendLine(sb, "Drift", $"{SignedFine(kgDeltaPerMinute, "kg/min")} at current hunger");
-        AppendLine(sb, "Encumbrance cap", $"{body.maxEncumberance:0.#}u");
-        AppendLine(sb, "Weight cap effect", Signed(weightCapPenalty, "u before run multiplier"));
-        AppendLine(sb, "Best cap direction", kgToBestCap > 0f ? $"gain {kgToBestCap:0.0}kg to reach the no-penalty zone" : "weight is not lowering cap");
-        AppendLine(sb, "Over-encumbered", $"{body.overEncumberance * 100f:0}%");
+        AppendLine(sb, "当前", $"{WeightTierName(body.weightOffset)}, {kg:0.0}kg (偏移 {body.weightOffset:0.#})");
+        AppendLine(sb, "体重漂移", $"{SignedFine(kgDeltaPerMinute, "kg/min")} 当前饥饿状态下");
+        AppendLine(sb, "负重上限", $"{body.maxEncumberance:0.#}u");
+        AppendLine(sb, "负重上限影响", Signed(weightCapPenalty, "u (本局倍率修正前)"));
+        AppendLine(sb, "恢复上限所需", kgToBestCap > 0f ? $"增重 {kgToBestCap:0.0}kg 可进入无惩罚区间" : "当前体重未降低负重上限");
+        AppendLine(sb, "负重超重", $"{body.overEncumberance * 100f:0}%");
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Weight ladder</color>");
-        AppendWeightTier(sb, body.weightOffset, "Obese", 50f, true);
-        AppendWeightTier(sb, body.weightOffset, "Overweight", 15f, true);
-        sb.AppendLine("Current: " + new string('-', Mathf.Clamp(Mathf.RoundToInt(Mathf.InverseLerp(-80f, 100f, body.weightOffset) * 18f), 0, 18)));
-        AppendWeightTier(sb, body.weightOffset, "Underweight", -15f, false);
-        AppendWeightTier(sb, body.weightOffset, "Very underweight", -30f, false);
-        AppendWeightTier(sb, body.weightOffset, "Emaciated", -50f, false);
+        sb.AppendLine("<color=#FFFFFF>体重阶梯</color>");
+        AppendWeightTier(sb, body.weightOffset, "肥胖臃肿", 50f, true);
+        AppendWeightTier(sb, body.weightOffset, "略显圆润", 15f, true);
+        sb.AppendLine("当前: " + new string('-', Mathf.Clamp(Mathf.RoundToInt(Mathf.InverseLerp(-80f, 100f, body.weightOffset) * 18f), 0, 18)));
+        AppendWeightTier(sb, body.weightOffset, "略显消瘦", -15f, false);
+        AppendWeightTier(sb, body.weightOffset, "身形瘦弱", -30f, false);
+        AppendWeightTier(sb, body.weightOffset, "骨瘦如柴", -50f, false);
         sb.AppendLine();
-        sb.Append($"{WeightKg(-55f):0.0}kg or {WeightKg(55f):0.0}kg flashes; {WeightKg(-60f):0.0}kg or {WeightKg(60f):0.0}kg can force fibrillation.");
+        sb.Append($"{WeightKg(-55f):0.0}kg 或 {WeightKg(55f):0.0}kg 时闪烁; {WeightKg(-60f):0.0}kg 或 {WeightKg(60f):0.0}kg 时强制增加室颤进度。");
         return sb.ToString();
     }
 
@@ -1655,14 +1669,14 @@ internal static class HealthPanelAugmentController
         float internalRate = Mathf.Clamp(body.internalBleeding, 0f, 25f) * 0.0057f;
         float regenRate = body.bloodRegenSpeed;
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Displayed net", LitersPerMinute(body, body.totalBleedSpeed));
-        AppendLine(sb, "External total", LitersPerMinute(body, external));
-        AppendLine(sb, "Internal", LitersPerMinute(body, internalRate));
-        AppendLine(sb, "Blood regen", "-" + LitersPerMinute(body, regenRate));
-        AppendLine(sb, "Clotting speed", $"{body.bleedClottingSpeed:0.###}");
-        AppendLine(sb, "Bleed multiplier", $"{body.bleedingSpeedMultiplier:0.###}x");
+        AppendLine(sb, "显示净速率", LitersPerMinute(body, body.totalBleedSpeed));
+        AppendLine(sb, "外出血总量", LitersPerMinute(body, external));
+        AppendLine(sb, "内出血", LitersPerMinute(body, internalRate));
+        AppendLine(sb, "血液再生", "-" + LitersPerMinute(body, regenRate));
+        AppendLine(sb, "自然凝血速率", $"{body.bleedClottingSpeed:0.###}");
+        AppendLine(sb, "流血速率倍率", $"{body.bleedingSpeedMultiplier:0.###}x");
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Max limb bleeds</color>");
+        sb.AppendLine("<color=#FFFFFF>出血最多的肢体</color>");
         AppendLimbBleed(sb, body, first, firstRate);
         AppendLimbBleed(sb, body, second, secondRate);
         AppendLimbBleed(sb, body, third, thirdRate);
@@ -1674,18 +1688,18 @@ internal static class HealthPanelAugmentController
         float liters = body.bloodToLitersBody(body.bloodVolume);
         float externalInternalLoss = Mathf.Max(0f, body.totalBleedSpeed + body.bloodRegenSpeed);
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{liters:0.00}L ({body.bloodVolume:0.#})");
-        AppendLine(sb, "Volume factor", $"{body.bloodVolumePercentage:0.###}x");
-        AppendLine(sb, "Regen", $"{LitersPerMinute(body, body.bloodRegenSpeed)} from hunger/healing");
-        AppendLine(sb, "Bleed drain", LitersPerMinute(body, externalInternalLoss));
-        AppendLine(sb, "Net change", Signed((body.bloodRegenSpeed - externalInternalLoss) * 60f * 0.025f, "L/min"));
+        AppendLine(sb, "当前", $"{liters:0.00}L ({body.bloodVolume:0.#})");
+        AppendLine(sb, "血容量系数", $"{body.bloodVolumePercentage:0.###}x");
+        AppendLine(sb, "血液再生", $"{LitersPerMinute(body, body.bloodRegenSpeed)} 来自饥饿/治疗");
+        AppendLine(sb, "出血消耗", LitersPerMinute(body, externalInternalLoss));
+        AppendLine(sb, "净变化", Signed((body.bloodRegenSpeed - externalInternalLoss) * 60f * 0.025f, "L/min"));
         if (body.bloodVolumePercentage < 0.6f)
         {
-            AppendLine(sb, "Oxygen cap", $"{body.bloodVolumePercentage / 0.6f * 100f:0.#}% from low blood");
+            AppendLine(sb, "血氧饱和度上限", $"{body.bloodVolumePercentage / 0.6f * 100f:0.#}% 因血量过低");
         }
 
         sb.AppendLine();
-        sb.Append("Flashes below 25. Dying checks combine bleeding with blood below 40; critical below 30.");
+        sb.Append("低于 25 时闪烁。\n总出血大于 0.02L/min 且血容量低于 40 时进入危险状态, 血容量低于 30 时进入危重状态。"); // Body.isCriticallyDying
         return sb.ToString();
     }
 
@@ -1698,18 +1712,18 @@ internal static class HealthPanelAugmentController
         float moodDrain = Mathf.Clamp01(0.65f - body.hunger * 0.01f) * 0.065f * metabolism;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.hunger:0.#}");
-        AppendLine(sb, "Drain", $"-{hungerDrainPerMinute:0.##}/min");
-        AppendLine(sb, "Immunity", Signed(immunity));
-        AppendLine(sb, "Weight drift", SignedFine(-weightOffsetPerMinute * 0.34f, "kg/min"));
-        AppendLine(sb, "Limb healing", $"{body.hungerLimbHealCurrent:0.###}x");
+        AppendLine(sb, "当前", $"{body.hunger:0.#}");
+        AppendLine(sb, "自然消耗", $"-{hungerDrainPerMinute:0.##}/min");
+        AppendLine(sb, "免疫力", Signed(immunity));
+        AppendLine(sb, "体重漂移", SignedFine(-weightOffsetPerMinute * 0.34f, "kg/min"));
+        AppendLine(sb, "肢体愈合", $"{body.hungerLimbHealCurrent:0.###}x");
         if (moodDrain > 0f)
         {
-            AppendLine(sb, "Mood drain", $"-{moodDrain:0.###}/s");
+            AppendLine(sb, "情绪值消耗", $"-{moodDrain:0.###}/s");
         }
 
         sb.AppendLine();
-        sb.Append("Below 40 lowers encumbrance cap and pressure target. At 0, limbs lose muscle; below 10 is dying.");
+        sb.Append("低于 40 时, 降低负重上限和目标血压。\n降到 0 时, 损失肌肉健康度。\n低于 10 时进入危险状态。");
         return sb.ToString();
     }
 
@@ -1722,17 +1736,17 @@ internal static class HealthPanelAugmentController
         float moodDrain = Mathf.Clamp01(0.65f - Mathf.Min(body.thirst, 120f) * 0.01f) * 0.065f * metabolism;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.thirst:0.#}");
-        AppendLine(sb, "Drain", $"-{thirstDrainPerMinute:0.##}/min");
-        AppendLine(sb, "Immunity", Signed(immunity));
-        AppendLine(sb, "Blood pressure mult", $"{body.thirstBloodPressure:0.###}x");
+        AppendLine(sb, "当前", $"{body.thirst:0.#}");
+        AppendLine(sb, "自然消耗", $"-{thirstDrainPerMinute:0.##}/min");
+        AppendLine(sb, "免疫力", Signed(immunity));
+        AppendLine(sb, "血压倍率", $"{body.thirstBloodPressure:0.###}x");
         if (moodDrain > 0f)
         {
-            AppendLine(sb, "Mood drain", $"-{moodDrain:0.###}/s");
+            AppendLine(sb, "情绪值消耗", $"-{moodDrain:0.###}/s");
         }
 
         sb.AppendLine();
-        sb.Append("Below 40 lowers encumbrance cap. Below 0 thickens blood. Above 175 hurts brain and can force fibrillation.");
+        sb.Append("低于 40 会降低负重上限。\n低于 0 时会增加血液黏稠度。\n高于 175 时会损伤脑组织完整度, 并可能诱发室颤。\n低于 10 时进入危险状态。");
         return sb.ToString();
     }
 
@@ -1746,7 +1760,7 @@ internal static class HealthPanelAugmentController
 
         if (limb == null)
         {
-            return "Select a limb for force details.";
+            return "选择一个肢体以查看力量详情。";
         }
 
         float structure = limb.muscleHealth * 0.01f;
@@ -1757,19 +1771,19 @@ internal static class HealthPanelAugmentController
         float stroke = limb.strokeAffected ? Mathf.Clamp01(1f - body.strokeAmount / 50f) : 1f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{limb.totalForce * 100f:0}%");
-        AppendLine(sb, "Muscle", $"{structure:0.###}x");
-        AppendLine(sb, "Fracture/dislocation", $"{injury:0.###}x");
-        AppendLine(sb, "Attached", $"{attached:0.###}x");
-        AppendLine(sb, "Pain/adrenaline", $"{painTerm:0.###}x");
-        AppendLine(sb, "Oxygen", $"{oxygen:0.###}x");
+        AppendLine(sb, "当前", $"{limb.totalForce * 100f:0}%");
+        AppendLine(sb, "肌肉健康度", $"{structure:0.###}x");
+        AppendLine(sb, "骨折/脱臼", $"{injury:0.###}x");
+        AppendLine(sb, "连接状态", $"{attached:0.###}x");
+        AppendLine(sb, "疼痛/肾上腺素", $"{painTerm:0.###}x");
+        AppendLine(sb, "血氧饱和度", $"{oxygen:0.###}x");
         if (limb.strokeAffected || body.strokeAmount > 0f)
         {
-            AppendLine(sb, "Stroke", $"{stroke:0.###}x");
+            AppendLine(sb, "中风", $"{stroke:0.###}x");
         }
 
         sb.AppendLine();
-        sb.Append("Limb force drives hand usability, leg movement contribution, and selected-limb health panel force.");
+        sb.Append("肢体力量会影响三个方面: 手部能否正常使用, 腿部对移动能力的贡献, 以及所选肢体在医疗面板中显示的力量值。");
         return sb.ToString();
     }
 
@@ -1780,24 +1794,24 @@ internal static class HealthPanelAugmentController
         float immunityPenalty = body.sicknessAmount * 0.8f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.sicknessAmount:0.#}%");
-        AppendLine(sb, "Natural decay", $"-{decayPerMinute:0.#}%/min");
-        AppendLine(sb, "Immunity penalty", $"-{immunityPenalty:0.#}");
+        AppendLine(sb, "当前", $"{body.sicknessAmount:0.#}%");
+        AppendLine(sb, "自然消退", $"-{decayPerMinute:0.#}%/min");
+        AppendLine(sb, "免疫力惩罚", $"-{immunityPenalty:0.#}");
         if (body.sicknessAmount > 20f)
         {
-            AppendLine(sb, "Mood drain", $"{Mathf.Clamp01(body.sicknessAmount * 0.01f) * 0.05f * metabolism:0.###}/s");
+            AppendLine(sb, "情绪值消耗", $"{Mathf.Clamp01(body.sicknessAmount * 0.01f) * 0.05f * metabolism:0.###}/s");
         }
 
         float radiationTarget = body.radiationSickness * 0.4f;
         if (radiationTarget > body.sicknessAmount)
         {
-            AppendLine(sb, "Radiation target", $"{radiationTarget:0.#}%");
+            AppendLine(sb, "辐射量目标", $"{radiationTarget:0.#}%");
         }
 
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Tiers</color>");
-        sb.AppendLine("10 / 30 / 50 / 75 show stronger sickness moodles.");
-        sb.Append("95+ can infect the abdomen and is critical.");
+        sb.AppendLine("<color=#FFFFFF>档位</color>");
+        sb.AppendLine("10 / 30 / 50 / 75 显示更强的反胃程度状态图标。");
+        sb.Append("95+ 时强制腹部感染, 感染会导致败血症进展从而进入危险或危重状态。");
         return sb.ToString();
     }
 
@@ -1819,50 +1833,50 @@ internal static class HealthPanelAugmentController
         float net = healingRate + braingrowHeal - oxygenDrain - dyingDrain - thirstDrain - strokeDrain - heatDrain - radiationDrain;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.brainHealth:0.#}%");
-        AppendLine(sb, "Heal", $"+{healingRate:0.####}/s");
+        AppendLine(sb, "当前", $"{body.brainHealth:0.#}%");
+        AppendLine(sb, "自然恢复", $"+{healingRate:0.####}/s");
         if (braingrowHeal > 0f)
         {
-            AppendLine(sb, "Braingrow", $"+{braingrowHeal:0.####}/s while active");
+            AppendLine(sb, "增脑剂", $"+{braingrowHeal:0.####}/s 生效期间");
         }
         if (oxygenDrain > 0f)
         {
-            AppendLine(sb, "Low oxygen", $"-{oxygenDrain:0.####}/s");
+            AppendLine(sb, "低血氧饱和度", $"-{oxygenDrain:0.####}/s");
         }
         if (dyingDrain > 0f)
         {
-            AppendLine(sb, "Brain dying", $"-{dyingDrain:0.####}/s");
+            AppendLine(sb, "大脑濒死", $"-{dyingDrain:0.####}/s"); // 血压<10, 意识<5
         }
         if (thirstDrain > 0f)
         {
-            AppendLine(sb, "Extreme thirst", $"-{thirstDrain:0.####}/s");
+            AppendLine(sb, "水中毒", $"-{thirstDrain:0.####}/s");
         }
         if (strokeDrain > 0f)
         {
-            AppendLine(sb, "Stroke", $"-{strokeDrain:0.####}/s");
+            AppendLine(sb, "中风", $"-{strokeDrain:0.####}/s");
         }
         if (heatDrain > 0f)
         {
-            AppendLine(sb, "Extreme heat", $"-{heatDrain:0.####}/s");
+            AppendLine(sb, "极端高温", $"-{heatDrain:0.####}/s");
         }
         if (radiationDrain > 0f)
         {
-            AppendLine(sb, "Radiation", $"-{radiationDrain:0.####}/s");
+            AppendLine(sb, "辐射量", $"-{radiationDrain:0.####}/s");
         }
-        AppendLine(sb, "Net", Signed(net, "/s"));
+        AppendLine(sb, "净变化", Signed(net, "/s"));
         if (net > 0f)
         {
-            AppendLine(sb, "To 95%", TimeToTarget(body.brainHealth, 95f, net));
-            AppendLine(sb, "To 100%", TimeToTarget(body.brainHealth, 100f, net));
+            AppendLine(sb, "恢复到 95%", TimeToTarget(body.brainHealth, 95f, net));
+            AppendLine(sb, "恢复到 100%", TimeToTarget(body.brainHealth, 100f, net));
         }
         else
         {
-            AppendLine(sb, "Recovery ETA", "not improving");
+            AppendLine(sb, "恢复预计时间", "未在恢复");
         }
 
         sb.AppendLine();
-        sb.AppendLine("Brain damage effects can happen below 95%.");
-        sb.Append("Braingrow gives about 10 brain health per 20mL over time; >39mL or overlapping doses can mindwipe.");
+        sb.AppendLine("脑损伤效果在低于 95% 时出现。");
+        sb.Append("每 20 mL 增脑剂随时间增加 10 点脑组织完整度, 单次服用超过 39mL 或重复用药将导致精神抹除。");
         return sb.ToString();
     }
 
@@ -1877,31 +1891,31 @@ internal static class HealthPanelAugmentController
         float antiradReduction = antiradDuration > 0f ? 0.2f : 0f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.radiationSickness:0.#}%");
-        AppendLine(sb, "Natural decay", $"-{naturalDecay:0.###}/s");
+        AppendLine(sb, "当前", $"{body.radiationSickness:0.#}%");
+        AppendLine(sb, "自然消退", $"-{naturalDecay:0.###}/s");
         if (antiradReduction > 0f)
         {
-            AppendLine(sb, "Antirad", $"-{antiradReduction:0.###}/s for {FormatDuration(antiradDuration)}");
+            AppendLine(sb, "抗辐射药", $"-{antiradReduction:0.###}/s 持续 {FormatDuration(antiradDuration)}");
         }
 
-        AppendLine(sb, "Sickness target", $"{sicknessTarget:0.#}%");
-        AppendLine(sb, "Immunity penalty", $"-{body.radiationSickness * 0.5f:0.#}");
+        AppendLine(sb, "反胃程度目标", $"{sicknessTarget:0.#}%");
+        AppendLine(sb, "免疫力惩罚", $"-{body.radiationSickness * 0.5f:0.#}");
         if (brainDrain > 0f)
         {
-            AppendLine(sb, "Brain drain", $"-{brainDrain:0.####}/s");
+            AppendLine(sb, "脑组织完整度消耗", $"-{brainDrain:0.####}/s");
         }
         if (bloodDrain > 0f)
         {
-            AppendLine(sb, "Blood drain", $"-{bloodDrain:0.####}/s");
+            AppendLine(sb, "血容量消耗", $"-{bloodDrain:0.####}/s");
         }
         if (thirstDrain > 0f)
         {
-            AppendLine(sb, "Thirst drain", $"-{thirstDrain:0.####}/s");
+            AppendLine(sb, "口渴消耗", $"-{thirstDrain:0.####}/s");
         }
 
         sb.AppendLine();
-        sb.AppendLine("Above 10 drains blood. Above 30 can infect limbs, add internal bleeding, and damage tissue.");
-        sb.Append("Dying check starts above 60.");
+        sb.AppendLine("高于 10 时消耗血容量, 高于 30 时发生肢体感染, 增加内出血并损伤皮肤健康度。");
+        sb.Append("高于 60 时进入危险状态。");
         return sb.ToString();
     }
 
@@ -1926,58 +1940,58 @@ internal static class HealthPanelAugmentController
         float immunityEffect = (body.temperature - 37f) * 8f;
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.temperature:0.0}C ({Signed(body.tempDiffFromNormal, "C")})");
+        AppendLine(sb, "当前", $"{body.temperature:0.0}C ({Signed(body.tempDiffFromNormal, "C")})");
         if (WorldGeneration.world != null)
         {
-            AppendLine(sb, "Layer", $"{WorldGeneration.world.ambientTemperature:0.0}C");
+            AppendLine(sb, "层级", $"{WorldGeneration.world.ambientTemperature:0.0}C");
         }
-        AppendLine(sb, "Movement mult", $"{body.currentTemperatureMovementMult:0.###}x");
-        AppendLine(sb, "Immunity effect", Signed(immunityEffect));
-        AppendLine(sb, "Insulation", $"{body.GetTotalInsulation():0.###}x");
-        AppendLine(sb, "Clothing", $"{body.clothingTemperature:0.###}");
-        AppendLine(sb, "Metabolic heat", Signed(metabolicHeat, "/s"));
+        AppendLine(sb, "移动能力倍率", $"{body.currentTemperatureMovementMult:0.###}x");
+        AppendLine(sb, "免疫力影响", Signed(immunityEffect));
+        AppendLine(sb, "身体总保温值", $"{body.GetTotalInsulation():0.###}x");
+        AppendLine(sb, "保温性能", $"{body.clothingTemperature:0.###}");
+        AppendLine(sb, "代谢产热", SignedFine(metabolicHeat, "/s")); // 函数调用错误, 精度太低始终显示为0/s
         if (hungerWarmth > 0f)
         {
-            AppendLine(sb, "Cold recovery", Signed(hungerWarmth, "/s"));
+            AppendLine(sb, "寒冷恢复", SignedFine(hungerWarmth, "/s")); // 函数调用错误, 精度太低始终显示为0/s
         }
         if (wetCooling > 0f)
         {
-            AppendLine(sb, "Wet cooling", $"-{wetCooling:0.###}/s");
+            AppendLine(sb, "潮湿降温", $"-{wetCooling:0.###}/s");
         }
 
         sb.AppendLine();
-        sb.AppendLine("Below 28 can start fibrillation; below 29 is dying and below 27 critical.");
-        sb.Append("Above 41 is dying, above 41.5 critical, and above 42 drains brain health.");
+        sb.AppendLine("低于 28 时, 强制增加室颤进度。\n低于 29 时, 进入危险状态。\n低于 27 时, 进入危重状态。");
+        sb.Append("\n高于 41 时, 进入危险状态。\n 高于 41.5 时, 进入危重状态, 高于 42 时, 减少脑组织完整度。");
         return sb.ToString();
     }
 
     private static string BuildBloodPressureTooltip(Body body)
     {
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Pressure", $"{body.bloodPressure:0.#} ({Mathf.RoundToInt(body.bloodPressure)}/{Mathf.RoundToInt(body.bloodPressure * 0.66f)})");
-        AppendLine(sb, "Pulse", $"{body.heartRate:0.#} bpm");
+        AppendLine(sb, "血压", $"{body.bloodPressure:0.#} ({Mathf.RoundToInt(body.bloodPressure)}/{Mathf.RoundToInt(body.bloodPressure * 0.66f)})");
+        AppendLine(sb, "心率", $"{body.heartRate:0.#} bpm");
         if (body.bloodPressureChangeFromMedicine > 0.5f)
         {
-            AppendLine(sb, "Medicine", $"lowering x0.75 ({body.bloodPressureChangeFromMedicine:0.#}s left)");
+            AppendLine(sb, "药物", $"降压 x0.75 (剩余 {body.bloodPressureChangeFromMedicine:0.#}s)");
         }
         else if (body.bloodPressureChangeFromMedicine < -0.5f)
         {
-            AppendLine(sb, "Medicine", $"raising x1.25 ({-body.bloodPressureChangeFromMedicine:0.#}s left)");
+            AppendLine(sb, "药物", $"升压 x1.25 (剩余 {-body.bloodPressureChangeFromMedicine:0.#}s)");
         }
         else
         {
-            AppendLine(sb, "Medicine", "none");
+            AppendLine(sb, "药物", "无");
         }
-        AppendLine(sb, "Vessel tone", $"{body.bloodVesselSize:0.###}x ({VesselToneName(body.bloodVesselSize)})");
-        AppendLine(sb, "Pressure factor", $"{1f / Mathf.Max(0.01f, body.bloodVesselSize):0.###}x from vessel size");
+        AppendLine(sb, "血管直径", $"{body.bloodVesselSize:0.###}x ({VesselToneName(body.bloodVesselSize)})");
+        AppendLine(sb, "血压系数", $"{1f / Mathf.Max(0.01f, body.bloodVesselSize):0.###}x 来自血管直径");
         sb.AppendLine();
-        sb.AppendLine("Higher vessel size means vasodilation/lower pressure; lower means vasoconstriction/higher pressure.");
-        sb.AppendLine("Vasoconstricted <0.97x; neutral 0.97-1.03x; vasodilated >1.03x.");
+        sb.AppendLine("血管直径越大表示血管舒张/血压越低, 直径越小表示血管收缩/血压越高。");
+        sb.AppendLine("血管收缩 <0.97x; 正常 0.97-1.03x; 血管舒张 >1.03x.");
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Hypotension</color> 110 / 96 / 83 / 60");
-        sb.AppendLine("<color=#FFFFFF>Hypertension</color> 130 / 145 / 162 / 180");
-        sb.AppendLine("Dying warning: below 80 or above 170. Critical: below 70.");
-        sb.Append("Stroke rolls begin above 180. Below 10 can cause brain failure when consciousness is under 5.");
+        sb.AppendLine("<color=#FFFFFF>低血压</color> 110 / 96 / 83 / 60");
+        sb.AppendLine("<color=#FFFFFF>高血压</color> 130 / 145 / 162 / 180");
+        sb.AppendLine("危险状态警告: 低于 80 或高于 170。危重状态: 低于 70。");
+        sb.Append("高于 180 开始中风判定。低于 10 且意识清醒度低于 5 时大脑濒死。");
         return sb.ToString();
     }
 
@@ -2007,39 +2021,39 @@ internal static class HealthPanelAugmentController
             + body.heartRatePressureOffset + fibrillationContribution + advancedFibrillationContribution;
         float pressureReference = HeartRatePressureReference(body, opiateReception);
         string pressureTrend = body.bloodPressure < pressureReference - 5f
-            ? "rising +1.5/s"
+            ? "上升 +1.5/s"
             : body.bloodPressure > pressureReference + 5f
-                ? "falling -1.5/s"
-                : "holding";
+                ? "下降 -1.5/s"
+                : "保持";
 
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.heartRate:0.#} bpm");
-        AppendLine(sb, "Target", $"{target:0.#} bpm (current eases toward this)");
+        AppendLine(sb, "当前", $"{body.heartRate:0.#} bpm");
+        AppendLine(sb, "目标", $"{target:0.#} bpm (当前值会向此靠拢)");
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Target contributors</color>");
-        AppendLine(sb, "Base", "+70 bpm");
-        AppendLine(sb, "Pain", Signed(painContribution, " bpm"));
-        AppendLine(sb, "Stamina deficit", Signed(staminaContribution, " bpm"));
-        AppendLine(sb, "Adrenaline", Signed(adrenalineContribution, " bpm"));
-        AppendLine(sb, "Positive viscosity", Signed(viscosityContribution, " bpm"));
-        AppendLine(sb, "Temperature", Signed(temperatureContribution, " bpm"));
-        AppendLine(sb, "Opiate reception", Signed(opiateContribution, " bpm"));
-        AppendLine(sb, "Pressure response", $"{Signed(body.heartRatePressureOffset, " bpm")} ({pressureTrend})");
-        AppendLine(sb, "Fibrillation", Signed(fibrillationContribution, " bpm"));
+        sb.AppendLine("<color=#FFFFFF>目标值来源</color>");
+        AppendLine(sb, "基础", "+70 bpm");
+        AppendLine(sb, "疼痛", Signed(painContribution, " bpm"));
+        AppendLine(sb, "体力不足", Signed(staminaContribution, " bpm"));
+        AppendLine(sb, "肾上腺素", Signed(adrenalineContribution, " bpm"));
+        AppendLine(sb, "正血液黏稠度", Signed(viscosityContribution, " bpm"));
+        AppendLine(sb, "核心体温", Signed(temperatureContribution, " bpm"));
+        AppendLine(sb, "阿片类药物水平", Signed(opiateContribution, " bpm"));
+        AppendLine(sb, "血压反应", $"{Signed(body.heartRatePressureOffset, " bpm")} ({pressureTrend})");
+        AppendLine(sb, "室颤进度", Signed(fibrillationContribution, " bpm"));
         if (advancedFibrillationContribution > 0f)
         {
-            AppendLine(sb, "Advanced fibrillation", Signed(advancedFibrillationContribution, " bpm"));
+            AppendLine(sb, "重度室颤进度", Signed(advancedFibrillationContribution, " bpm"));
         }
 
         sb.AppendLine();
-        AppendLine(sb, "Pressure actual / reference", $"{body.bloodPressure:0.#} / {pressureReference:0.#}");
+        AppendLine(sb, "血压实际值 / 参考值", $"{body.bloodPressure:0.#} / {pressureReference:0.#}");
         if (body.inCardiacArrest)
         {
-            sb.AppendLine("<color=#FF7777>Cardiac arrest locks heart rate to 0.</color>");
+            sb.AppendLine("<color=#FF7777>心脏骤停会将心率锁定为 0。</color>");
         }
         sb.AppendLine();
-        sb.AppendLine("Bradycardia <60 (severe <40); tachycardia >110 (severe >160, critical >200).");
-        sb.Append("Above 200 can start fibrillation; above 280 accelerates it. Cardiac arrest is below 20.");
+        sb.AppendLine("心动过缓 <60 (严重 <40); 心动过速 >110 (严重 >160, 危险状态 >200)。");
+        sb.Append("高于 200 将推进室颤进度, 高于 280 时室颤进度陡增, 心脏骤停为低于 20。");
         return sb.ToString();
     }
 
@@ -2075,12 +2089,12 @@ internal static class HealthPanelAugmentController
     private static string BuildViscosityTooltip(Body body)
     {
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Current", $"{body.bloodViscosity:0.#}");
-        AppendLine(sb, "Pulmonary embolism", body.hasPulmonaryEmbolism ? "detected" : body.bloodViscosity > EmbolismRiskViscosity ? "risk above 90" : "not detected");
-        AppendLine(sb, "Oxygen cap", $"{100f - Mathf.Abs(Mathf.MoveTowards(body.bloodViscosity, 0f, 40f)) * 0.4f:0.#}%");
-        AppendLine(sb, "Clotting", $"x{Mathf.Clamp01(body.bloodViscosity.Remap(-100f, 0f, 0f, 1f)):0.##}");
+        AppendLine(sb, "当前", $"{body.bloodViscosity:0.#}");
+        AppendLine(sb, "肺栓塞", body.hasPulmonaryEmbolism ? "已发生" : body.bloodViscosity > EmbolismRiskViscosity ? "高于 90 有风险" : "未检测到");
+        AppendLine(sb, "血氧饱和度上限", $"{100f - Mathf.Abs(Mathf.MoveTowards(body.bloodViscosity, 0f, 40f)) * 0.4f:0.#}%");
+        AppendLine(sb, "凝血倍率", $"x{Mathf.Clamp01(body.bloodViscosity.Remap(-100f, 0f, 0f, 1f)):0.##}");
         sb.AppendLine();
-        sb.Append("Above 80 contributes to fibrillation. Above 90 can roll embolism.");
+        sb.Append("高于 80 时增加室颤进度。\n高于 90 时可能触发肺栓塞。");
         return sb.ToString();
     }
 
@@ -2091,51 +2105,51 @@ internal static class HealthPanelAugmentController
         float reception = painkillers != null ? painkillers.opiateReception : 0f;
         float actual = painkillers != null ? painkillers.actualOpiateReception : 0f;
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Amount", $"{amount:0.#}");
-        AppendLine(sb, "Tolerance", $"{tolerance:0.#}");
-        AppendLine(sb, "Reception", $"{reception:0.#}");
-        AppendLine(sb, "Actual", $"{actual:0.#}");
-        AppendLine(sb, "Pain relief", actual > 0f ? $"{actual * 0.3f:0.#}/s per limb" : "none");
-        AppendLine(sb, "Mood", Signed(actual > 0f ? actual : Mathf.Max(-80f, actual * 1.66f)));
+        AppendLine(sb, "摄入量", $"{amount:0.#}");
+        AppendLine(sb, "耐受", $"{tolerance:0.#}");
+        AppendLine(sb, "受体水平", $"{reception:0.#}");
+        AppendLine(sb, "实际受体水平", $"{actual:0.#}");
+        AppendLine(sb, "疼痛缓解", actual > 0f ? $"{actual * 0.3f:0.#}/s 每个肢体" : "无");
+        AppendLine(sb, "情绪值", Signed(actual > 0f ? actual : Mathf.Max(-80f, actual * 1.66f)));
         sb.AppendLine();
-        sb.AppendLine("OD tiers: 5 / 20 / 50 / 80.");
-        sb.Append("Withdrawal tiers: -5 / -15 / -25 / -34.");
+        sb.AppendLine("过量状态档位: 5 / 20 / 50 / 80");
+        sb.Append("戒断状态档位: -5 / -15 / -25 / -34");
         return sb.ToString();
     }
 
     private static string BuildFibrillationTooltip(Body body, float rate)
     {
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Progress", $"{body.fibrillationProgress:0.#}%");
-        AppendLine(sb, "Rate", Signed(rate, "%/s"));
+        AppendLine(sb, "进度", $"{body.fibrillationProgress:0.#}%");
+        AppendLine(sb, "速率", Signed(rate, "%/s"));
         sb.AppendLine();
-        sb.AppendLine("<color=#FFFFFF>Active factors</color>");
+        sb.AppendLine("<color=#FFFFFF>活跃因素</color>");
         bool any = false;
-        any |= AppendFactor(sb, body.bloodOxygen < 60f, $"Oxygen {body.bloodOxygen:0.#}% < 60");
-        any |= AppendFactor(sb, body.bloodPressure < 88f, $"Pressure {body.bloodPressure:0.#} < 88");
-        any |= AppendFactor(sb, body.heartRate > 200f, $"Pulse {body.heartRate:0.#} > 200");
-        any |= AppendFactor(sb, body.fibrillationForced, "Forced fibrillation flag");
-        any |= AppendFactor(sb, body.bloodViscosity > 80f, $"Viscosity {body.bloodViscosity:0.#} > 80");
-        any |= AppendFactor(sb, body.temperature < 28.5f, $"Temperature {body.temperature:0.#}C < 28.5");
+        any |= AppendFactor(sb, body.bloodOxygen < 60f, $"血氧饱和度 {body.bloodOxygen:0.#}% < 60");
+        any |= AppendFactor(sb, body.bloodPressure < 88f, $"血压 {body.bloodPressure:0.#} < 88");
+        any |= AppendFactor(sb, body.heartRate > 200f, $"心率 {body.heartRate:0.#} > 200");
+        any |= AppendFactor(sb, body.fibrillationForced, "强制室颤标记");
+        any |= AppendFactor(sb, body.bloodViscosity > 80f, $"血液黏度度 {body.bloodViscosity:0.#} > 80");
+        any |= AppendFactor(sb, body.temperature < 28.5f, $"核心体温 {body.temperature:0.#}C < 28.5");
         if (!any)
         {
-            sb.AppendLine("No rising factor; fibrillation should decay.");
+            sb.AppendLine("没有上升因素, 室颤进度应当消退。");
         }
 
         sb.AppendLine();
-        sb.Append("Progress rises while a factor is active and arrests at 100%.");
+        sb.Append("只要有活跃因素进度就会上升, 达到 100% 时终止。");
         return sb.ToString();
     }
 
     private static string BuildOxygenTooltip(Body body)
     {
         StringBuilder sb = NewTooltipBuilder();
-        AppendLine(sb, "Oxygen", $"{body.bloodOxygen:0.#}%");
-        AppendLine(sb, "Respiration", $"{body.respiratoryRate:0.#}/m");
-        AppendLine(sb, "Hemothorax cap", $"{100f - body.hemothorax * 0.3f:0.#}%");
-        AppendLine(sb, "Viscosity cap", $"{100f - Mathf.Abs(Mathf.MoveTowards(body.bloodViscosity, 0f, 40f)) * 0.4f:0.#}%");
+        AppendLine(sb, "血氧", $"{body.bloodOxygen:0.#}%");
+        AppendLine(sb, "呼吸", $"{body.respiratoryRate:0.#}/m");
+        AppendLine(sb, "血胸上限", $"{100f - body.hemothorax * 0.3f:0.#}%");
+        AppendLine(sb, "血液黏稠度上限", $"{100f - Mathf.Abs(Mathf.MoveTowards(body.bloodViscosity, 0f, 40f)) * 0.4f:0.#}%");
         sb.AppendLine();
-        sb.Append("Below 80 can damage brain health; below 60 contributes to fibrillation.");
+        sb.Append("低于 80 时, 损伤脑组织健康度。\n低于 60 时, 促进室颤进度。");
         return sb.ToString();
     }
 
@@ -2184,12 +2198,12 @@ internal static class HealthPanelAugmentController
     private static void AppendWeightTier(StringBuilder sb, float currentOffset, string name, float thresholdOffset, bool highTier)
     {
         bool active = highTier ? currentOffset >= thresholdOffset : currentOffset <= thresholdOffset;
-        string label = active ? "Current " + name : name;
+        string label = active ? "当前 " + name : name;
         sb.Append("<color=#FFFFFF>").Append(label).Append("</color>: ");
         sb.Append(WeightKg(thresholdOffset).ToString("0.0")).Append("kg");
         if (!active)
         {
-            sb.Append(" (").Append(Mathf.Abs(WeightKg(currentOffset) - WeightKg(thresholdOffset)).ToString("0.0")).Append("kg away)");
+            sb.Append(" (距离 ").Append(Mathf.Abs(WeightKg(currentOffset) - WeightKg(thresholdOffset)).ToString("0.0")).Append("kg)");
         }
 
         sb.AppendLine();
@@ -2214,15 +2228,15 @@ internal static class HealthPanelAugmentController
     {
         if (bloodVesselSize > 1.03f)
         {
-            return "vasodilated";
+            return "血管舒张";
         }
 
         if (bloodVesselSize < 0.97f)
         {
-            return "vasoconstricted";
+            return "血管收缩";
         }
 
-        return "neutral";
+        return "正常";
     }
 
     private static float WeightKg(float weightOffset)
@@ -2247,42 +2261,42 @@ internal static class HealthPanelAugmentController
     {
         if (weightOffset >= 50f)
         {
-            return "Obese";
+            return "肥胖臃肿";
         }
 
         if (weightOffset > 15f)
         {
-            return "Overweight";
+            return "略显圆润";
         }
 
         if (weightOffset <= -50f)
         {
-            return "Emaciated";
+            return "骨瘦如柴";
         }
 
         if (weightOffset < -30f)
         {
-            return "Very underweight";
+            return "身形瘦弱";
         }
 
         if (weightOffset < -15f)
         {
-            return "Underweight";
+            return "略显消瘦";
         }
 
-        return "Normal";
+        return "正常";
     }
 
     private static string TimeToTarget(float current, float target, float rate)
     {
         if (current >= target)
         {
-            return "now";
+            return "当前";
         }
 
         if (rate <= 0f)
         {
-            return "not improving";
+            return "未增长";
         }
 
         return FormatDuration((target - current) / rate);
@@ -2292,7 +2306,7 @@ internal static class HealthPanelAugmentController
     {
         if (float.IsNaN(seconds) || float.IsInfinity(seconds) || seconds < 0f)
         {
-            return "unknown";
+            return "未知";
         }
 
         TimeSpan span = TimeSpan.FromSeconds(seconds);
@@ -3240,8 +3254,8 @@ internal static class DollOverlayController
 
         UITooltip tip = cogButton.AddComponent<UITooltip>();
         tip.skipLocale = true;
-        tip.tipName = "Body doll overlay";
-        tip.tipDesc = "Adjust the body doll overlay.";
+        tip.tipName = "身体模型叠加层";
+        tip.tipDesc = "调整身体模型叠加层。";
     }
 
     private static Sprite FindPauseSettingsSprite()
@@ -3419,7 +3433,7 @@ internal static class DollOverlayController
         rect.sizeDelta = new Vector2(820f, 48f);
 
         editHeaderText = editHeader.GetComponent<TextMeshProUGUI>();
-        editHeaderText.text = "Drag body doll to move | drag corners to resize | Esc to exit";
+        editHeaderText.text = "拖动身体模型以移动位置 | 拖动边角以调整大小 | 按 Esc 退出";
         editHeaderText.alignment = TextAlignmentOptions.Center;
         editHeaderText.fontSize = 24f;
         editHeaderText.color = new Color32(76, 255, 119, 255);
@@ -4041,11 +4055,11 @@ internal static class SyringeInjectionTracker
 
         if (liquidOrder.Count == 0)
         {
-            lines.Add("<color=#ffffff>Injected: 0.0mL");
+            lines.Add("<color=#ffffff>已注射: 0.0mL");
         }
         else
         {
-            lines.Add("<color=#ffffff>Injected:");
+            lines.Add("<color=#ffffff>已注射:");
             foreach (string id in liquidOrder)
             {
                 injectedByLiquid.TryGetValue(id, out float amount);
@@ -4093,6 +4107,6 @@ internal static class SyringeInjectionTracker
             }
         }
 
-        return string.IsNullOrWhiteSpace(id) ? "<unknown>" : id;
+        return string.IsNullOrWhiteSpace(id) ? "<未知>" : id;
     }
 }
