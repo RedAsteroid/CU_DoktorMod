@@ -1,3 +1,9 @@
+// ===========================================================================
+// Modified by RedAsteroid (2026): Simplified Chinese localization, terminology
+// adjustments and fixes. Based on "DoktorMod" by Txgom2 (Apache-2.0).
+// See the NOTICE file in the repository root for details.
+// ===========================================================================
+
 using System;
 using System.Collections.Generic;
 using System.IO;
