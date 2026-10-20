@@ -1914,8 +1914,8 @@ internal static class HealthPanelAugmentController
         }
 
         sb.AppendLine();
-        sb.AppendLine("高于 10 时消耗血容量, 高于 30 时发生肢体感染, 增加内出血并损伤皮肤健康度。");
-        sb.Append("高于 60 时进入危险状态。");
+        sb.AppendLine("高于 3.0 Gy 时消耗血容量, 高于 10 Gy 时发生肢体感染, 增加内出血并损伤皮肤健康度。");
+        sb.Append("高于 18 Gy 时进入危险状态。"); // 采用 Gy，纠正错误数值
         return sb.ToString();
     }
 
